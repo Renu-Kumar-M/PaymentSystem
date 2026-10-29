@@ -1,0 +1,33 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-v1
+  template:
+    metadata:
+      labels:
+        app: payment-v1
+    spec:
+      containers:
+        - name: payment-v1
+          image: renukumarm06/payment-system:v1
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-v1-service
+spec:
+  type: NodePort
+  selector:
+    app: payment-v1
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30050
